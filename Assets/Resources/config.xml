@@ -7,6 +7,6 @@
 	<parameter type="noiseStrength">1</parameter>
 	<parameter type="noiseWalk">1</parameter>
 	<parameter type="bias">1</parameter>
-	<parameter type="timePeriod">1</parameter>
 	<parameter type="continuousBool">1</parameter>
+	<parameter type="timePeriod">1</parameter>
 </parameters>
