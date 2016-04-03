@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<parameters>
+	<parameter type="amplitude">0.1</parameter>
+	<parameter type="speed">1.0</parameter>
+	<parameter type="wavelength">0.2</parameter>
+	<parameter type="noiseBool">1</parameter>
+	<parameter type="noiseStrength">1</parameter>
+	<parameter type="noiseWalk">1</parameter>
+	<parameter type="bias">1</parameter>
+	<parameter type="timePeriod">1</parameter>
+	<parameter type="continuousBool">1</parameter>
+</parameters>
