@@ -15,7 +15,6 @@ public class GenerateWaves : MonoBehaviour {
 	private WaveController waveScript;
 
 
-
 	void Start() {
 		//Get the water mesh
 		waterMesh = this.GetComponent<MeshFilter>().mesh;
@@ -26,6 +25,7 @@ public class GenerateWaves : MonoBehaviour {
 		GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
 
 		waveScript = gameController.GetComponent<WaveController>();
+
 	}
 
 

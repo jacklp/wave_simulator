@@ -9,6 +9,8 @@ public class BoatPhysics : MonoBehaviour {
 	//The game object where we will display the mesh that is below the water
 	public GameObject UnderwaterMeshOBJ;
 
+	public float speed;
+
 	//The original Boat
 	private Mesh BoatMesh;
 	//These are always constant and comes from the original hull
@@ -46,12 +48,15 @@ public class BoatPhysics : MonoBehaviour {
 		
 	void Update() {
 		GenerateUnderwaterMesh();
+
 	}
 
 	void FixedUpdate() {		
 
+
+
 		if (underwaterTriangles != null) {
-			
+			transform.Translate(Vector3.forward * speed);		
 			//Will add buoyance so it can float, and drifting from the waves
 			if (underwaterTriangles.Count > 0) {
 				AddForcesToBoat ();

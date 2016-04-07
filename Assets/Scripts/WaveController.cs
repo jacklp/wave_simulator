@@ -15,7 +15,7 @@ public class WaveController : MonoBehaviour {
 		sineWaveModel = new SineWaveModel ();
 		sineWaveModel.buildModel ();
 	}
-
+		
 	void OnGUI()
 	{
 		GUI.skin = menuSkin;
@@ -30,19 +30,19 @@ public class WaveController : MonoBehaviour {
 
 		GUILayout.BeginHorizontal();
 		GUILayout.Label("Amplitude");
-		float amplitude = GUILayout.HorizontalSlider ( sineWaveModel.modelData["amplitude"], 0.0F, 10.0F);
+		float amplitude = GUILayout.HorizontalSlider ( sineWaveModel.modelData["amplitude"], 0.0F, 5F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
 		GUILayout.Label("Speed");
-		float speed = GUILayout.HorizontalSlider ( sineWaveModel.modelData["speed"], 0.0F, 10.0F);
+		float speed = GUILayout.HorizontalSlider ( sineWaveModel.modelData["speed"], 0.0F, 5F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
 		GUILayout.Label("Wavelength");
-		float wavelength = GUILayout.HorizontalSlider ( sineWaveModel.modelData["wavelength"], 0.0F, 10.0F);
+		float wavelength = GUILayout.HorizontalSlider ( sineWaveModel.modelData["wavelength"], 0.0F, 10F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
