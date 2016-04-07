@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <parameters>
-	<parameter type="amplitude">0.1</parameter>
-	<parameter type="speed">1.0</parameter>
-	<parameter type="wavelength">0.2</parameter>
-	<parameter type="noiseBool">1</parameter>
-	<parameter type="noiseStrength">1</parameter>
-	<parameter type="noiseWalk">1</parameter>
-	<parameter type="bias">1</parameter>
-	<parameter type="continuousBool">1</parameter>
-	<parameter type="timePeriod">1</parameter>
+  <amplitude>1.95122</amplitude>
+  <speed>1.341463</speed>
+  <wavelength>1.95122</wavelength>
+  <noiseBool>1</noiseBool>
+  <noiseStrength>1.585366</noiseStrength>
+  <noiseWalk>3.292683</noiseWalk>
+  <bias>1.463415</bias>
+  <continuousBool>1</continuousBool>
+  <timePeriod>0.4634146</timePeriod>
 </parameters>

@@ -9,80 +9,63 @@ using UnityEditor;
 public class WaveController : MonoBehaviour {
 
 	SineWaveModel sineWaveModel;
-
-	private Font f;
-	GUIStyle backgroundStyle;
-	GUIStyle labelStyle;
-	GUIStyle sliderStyle;
-	GUIStyle sliderThumbStyle;
+	public GUISkin menuSkin;
 
 	void Awake(){
-		f = (Font)Resources.Load("tattoosailor");
 		sineWaveModel = new SineWaveModel ();
 		sineWaveModel.buildModel ();
 	}
 
 	void OnGUI()
 	{
-		backgroundStyle = new GUIStyle();
-		//backgroundStyle.normal.background = MakeTex(600, 1, new Color(0f, 0f, 0f, 1.0f));
+		GUI.skin = menuSkin;
 
-		labelStyle = new GUIStyle(GUI.skin.label);
-		labelStyle.fontSize = 12;
-		labelStyle.font = f;
-		labelStyle.fixedWidth = 100;
+		EditorStyles.radioButton.font = menuSkin.label.font;
+		EditorStyles.radioButton.normal.textColor = menuSkin.label.normal.textColor;
+		EditorStyles.radioButton.onNormal.textColor = menuSkin.label.onNormal.textColor;
 
-		/*sliderStyle = new GUIStyle(GUI.skin.horizontalSlider);
-		sliderStyle.border.left = 2;
-		sliderStyle.border.bottom = 2;
-		sliderStyle.border.top = 2;
-		sliderStyle.border.right = 2;
-
-		sliderThumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb);
-		*/
 
 		//Begin Area
-		GUILayout.BeginArea(new Rect(0,0, Screen.width/4, (Screen.height*4)/5), backgroundStyle);
+		GUILayout.BeginArea(new Rect(0,0, Screen.width/4, 400), menuSkin.box);
 
 		GUILayout.BeginHorizontal();
-		GUILayout.Label("Amplitude", labelStyle);
+		GUILayout.Label("Amplitude");
 		float amplitude = GUILayout.HorizontalSlider ( sineWaveModel.modelData["amplitude"], 0.0F, 10.0F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
-		GUILayout.Label("Speed", labelStyle);
+		GUILayout.Label("Speed");
 		float speed = GUILayout.HorizontalSlider ( sineWaveModel.modelData["speed"], 0.0F, 10.0F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
-		GUILayout.Label("Wavelength", labelStyle);
+		GUILayout.Label("Wavelength");
 		float wavelength = GUILayout.HorizontalSlider ( sineWaveModel.modelData["wavelength"], 0.0F, 10.0F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
-
 		int noiseBoolVal = (int)sineWaveModel.modelData ["noiseBool"];
 		int noiseBool = GUILayout.SelectionGrid(noiseBoolVal, new string[] { "Noise Off", "Noise On"}, 1, EditorStyles.radioButton);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
-		GUILayout.Label("Noise Strength", labelStyle);
+		GUILayout.Label("Noise Strength");
 		float noiseStrength = GUILayout.HorizontalSlider ( sineWaveModel.modelData["noiseStrength"], 0.0F, 10.0F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
-		GUILayout.Label("Noise Walk", labelStyle);
+		GUILayout.Label("Noise Walk");
 		float noiseWalk = GUILayout.HorizontalSlider ( sineWaveModel.modelData["noiseWalk"], 0.0F, 10.0F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
-		GUILayout.Label("Bias", labelStyle);
+		GUILayout.Label("Bias");
 		float bias = GUILayout.HorizontalSlider ( sineWaveModel.modelData["bias"], 0.0F, 10.0F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
@@ -94,8 +77,8 @@ public class WaveController : MonoBehaviour {
 		GUILayout.Space(15);
 
 		GUILayout.BeginHorizontal();
-		GUILayout.Label("Time Period", labelStyle);
-		float timePeriod = GUILayout.HorizontalSlider ( sineWaveModel.modelData["timePeriod"], 0.0F, 10.0F);
+		GUILayout.Label("Time Period");
+		float timePeriod = GUILayout.HorizontalSlider ( sineWaveModel.modelData["timePeriod"], 0.2F, 1F);
 		GUILayout.EndHorizontal();
 		GUILayout.Space(15);
 
@@ -111,6 +94,7 @@ public class WaveController : MonoBehaviour {
 			sineWaveModel.modelData ["bias"] = bias;
 			sineWaveModel.modelData ["continuousBool"] = (float)continuousBool;
 			sineWaveModel.modelData ["timePeriod"] = timePeriod;
+			sineWaveModel.saveModel ();
 		}
 	}
 		
@@ -118,10 +102,9 @@ public class WaveController : MonoBehaviour {
 		float y_coord = 0f;
 
 		if (sineWaveModel.modelData["continuousBool"] == 1f) {
-			y_coord += sineWaveModel.modelData["amplitude"] * Mathf.Sin ((Time.time * sineWaveModel.modelData["speed"] + z_coord) / sineWaveModel.modelData["wavelength"]) + sineWaveModel.modelData["bias"];
+			y_coord += sineWaveModel.modelData["amplitude"] * Mathf.Sin ( (2* Mathf.PI * Time.time * sineWaveModel.modelData["speed"] + z_coord) / sineWaveModel.modelData["wavelength"]) + sineWaveModel.modelData["bias"];
 		} else {
-			// TODO: check time for how long left til it resets
-			//sineWaveModel.modelData["timePeriod"]
+			y_coord += sineWaveModel.modelData["amplitude"] * Mathf.Sin ( (2* Mathf.PI * 1/(sineWaveModel.modelData ["timePeriod"] * sineWaveModel.modelData["speed"]) + z_coord) / sineWaveModel.modelData["wavelength"]) + sineWaveModel.modelData["bias"];
 		}
 
 		if (sineWaveModel.modelData["noiseBool"] == 1f) {
