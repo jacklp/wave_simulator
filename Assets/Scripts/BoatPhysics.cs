@@ -36,7 +36,7 @@ public class BoatPhysics : MonoBehaviour {
 
 		UnderWaterMesh = UnderwaterMeshOBJ.GetComponent<MeshFilter>().mesh;
 		BoatMesh = GetComponent<MeshFilter>().mesh;
-
+		//BoatMesh = GameObject.Find("medieval_boat").GetComponent<MeshFilter>().mesh;
 		originalVerticesArray = BoatMesh.vertices;
 		originalTrianglesArray = BoatMesh.triangles;
 

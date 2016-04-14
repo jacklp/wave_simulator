@@ -108,7 +108,9 @@ public class WaveController : MonoBehaviour {
 		}
 
 		if (sineWaveModel.modelData["noiseBool"] == 1f) {
-			y_coord += Mathf.PerlinNoise (x_coord + sineWaveModel.modelData["noiseWalk"], z_coord + Mathf.Sin (Time.time * 0.1f)) * sineWaveModel.modelData["noiseStrength"];
+			y_coord += Mathf.PerlinNoise (x_coord + sineWaveModel.modelData["noiseWalk"] + this.transform.position.x, 
+				z_coord + Mathf.Sin (Time.time * 0.1f) + this.transform.position.z)
+				* sineWaveModel.modelData["noiseStrength"];
 		}
 
 		return y_coord;

@@ -2,39 +2,92 @@
 using System.Collections;
 using System.Collections.Generic;
 
+class Tile{
+	public GameObject theTile;
+	public float creationTime;
+
+	public Tile(GameObject t, float ct){
+		theTile = t;
+		creationTime = ct;
+	}
+}
+
 public class InfiniteWaves : MonoBehaviour {
 
-	public Transform wave;
-	GameObject Boat;
-	List <Transform> waveGrid;
-	public int numRows;
+	public GameObject plane;
+	public GameObject player;
 
-	void Start () {
-		Boat = GameObject.Find("Boat");
+	int planeSize = 50;
+	int halfTilesX = 10;
+	int halfTilesZ = 10;
 
-		//instantiate a grid of 9 waves.
-		for (int z = 0; z < numRows; z++) {
-			for (int x = 0; x < numRows; x++) {
-				Transform ic = Instantiate (wave, new Vector3(x*30, 0, z*30), Quaternion.identity) as Transform;
-				ic.parent=transform;
-				waveGrid.Add (ic);
+	Vector3 startPos;
+
+	Hashtable tiles = new Hashtable();
+
+	void Start(){
+
+		this.gameObject.transform.position = Vector3.zero;
+		startPos = Vector3.zero;
+
+		float updateTime = Time.realtimeSinceStartup;
+
+		for (int x = -halfTilesX; x < halfTilesX; x++) {
+			for (int z = -halfTilesZ; z < halfTilesZ; z++) {
+				Vector3 pos = new Vector3(	(x * planeSize + startPos.x),
+											0,
+											(z*planeSize + startPos.z)
+										);
+				GameObject t = (GameObject)Instantiate (plane, pos, Quaternion.identity);
+				string tilename = "Tile_" + ((int)(pos.x)).ToString() + "_" + ((int)(pos.z)).ToString();
+				t.name = tilename;
+				Tile Tile = new Tile(t, updateTime);
+				tiles.Add(tilename, Tile);
 			}
 		}
-		transform.Rotate (new Vector3 (0, 45, 0));
 	}
-
-	void Update () {
-
-		//TODO: if player position close to the edge of one of the waves then draw more of them.
-
-		//Create Grid of Waves and store them in List.	
-		for (int z = 0; z < 5; z++) {
-			for (int x = 0; x < 5; x++) {
-				
-			}
-		}
 	
+	void Update(){
+		int xMove = (int)(player.transform.position.x - startPos.x);
+		int zMove = (int)(player.transform.position.z - startPos.z);
 
+		if (Mathf.Abs (xMove) >= planeSize || Mathf.Abs (zMove) >= planeSize) {
+			float updateTime = Time.realtimeSinceStartup;
 
+			int playerX = (int)(Mathf.Floor (player.transform.position.x / planeSize) * planeSize);
+			int playerZ = (int)(Mathf.Floor (player.transform.position.z / planeSize) * planeSize);
+
+			for (int x = -halfTilesX; x < halfTilesX; x++) {
+				for (int z = -halfTilesZ; z < halfTilesZ; z++) {
+					Vector3 pos = new Vector3(	(x * planeSize + playerX),
+						0,
+						(z*planeSize + playerZ)
+					);
+
+					string tilename = "Tile_" + ((int)(pos.x)).ToString() + "_" + ((int)(pos.z)).ToString();
+					if (!tiles.ContainsKey (tilename)) {
+						GameObject t = (GameObject)Instantiate (plane, pos, Quaternion.identity);
+						t.name = tilename;
+						Tile Tile = new Tile (t, updateTime);
+						tiles.Add (tilename, Tile);
+					} else {
+						(tiles [tilename] as Tile).creationTime = updateTime;
+					}
+						
+				}
+			}
+
+			Hashtable newTerrain = new Hashtable ();
+			foreach (Tile tls in tiles.Values) {
+				if (tls.creationTime != updateTime) {
+					Destroy (tls.theTile);
+				} else {
+					newTerrain.Add (tls.theTile.name, tls);
+				}
+			}
+			tiles = newTerrain;
+
+			startPos = player.transform.position;
+		}
 	}
 }
