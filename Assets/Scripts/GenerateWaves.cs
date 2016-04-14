@@ -14,8 +14,16 @@ public class GenerateWaves : MonoBehaviour {
 	//To get the y position
 	private WaveController waveScript;
 
+	Material wireframe;
+	Material water;
+	bool wireOn;
 
 	void Start() {
+
+		wireOn = false;
+		water = Resources.Load ("water") as Material;
+		wireframe = Resources.Load("wireframev2") as Material;
+
 		//Get the water mesh
 		waterMesh = this.GetComponent<MeshFilter>().mesh;
 
@@ -32,6 +40,18 @@ public class GenerateWaves : MonoBehaviour {
 
 	void Update() {
 		MoveSea();
+
+
+		if (Input.GetKeyDown ("space")) {
+
+			if (wireOn) {
+				GetComponent<Renderer> ().material = wireframe;	
+				wireOn = false;
+			} else {
+				GetComponent<Renderer> ().material = water;
+				wireOn = true;
+			}
+		}
 	}
 
 

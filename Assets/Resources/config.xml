@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <parameters>
-  <amplitude>1.449275</amplitude>
-  <speed>3.188406</speed>
-  <wavelength>10</wavelength>
-  <noiseBool>1</noiseBool>
+  <amplitude>1.376812</amplitude>
+  <speed>1.811594</speed>
+  <wavelength>8.405797</wavelength>
+  <noiseBool>0</noiseBool>
   <noiseStrength>3.043478</noiseStrength>
   <noiseWalk>10</noiseWalk>
   <bias>0</bias>

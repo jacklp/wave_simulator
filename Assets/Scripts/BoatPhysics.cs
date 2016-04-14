@@ -13,6 +13,9 @@ public class BoatPhysics : MonoBehaviour {
 
 	//The original Boat
 	private Mesh BoatMesh;
+	public int density;
+	public float gravity;
+
 	//These are always constant and comes from the original hull
 	//Coordinates of all vertices 
 	private Vector3[] originalVerticesArray;
@@ -29,6 +32,8 @@ public class BoatPhysics : MonoBehaviour {
 
 
 	void Start() {
+
+		Physics.gravity = new Vector3 (0, -gravity, 0);
 		//Get the waveControllerScript
 		GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
 
@@ -134,7 +139,7 @@ public class BoatPhysics : MonoBehaviour {
 		// n - normal to the surface
 
 		//The drifting force
-		Vector3 F = 0.5f * 1000f * Physics.gravity.y * area * area * normal;
+		Vector3 F = 0.5f * density * Physics.gravity.y * area * area * normal;
 
 		//Maybe?
 		F = new Vector3(F.x, 0f, F.z);
@@ -150,7 +155,7 @@ public class BoatPhysics : MonoBehaviour {
 		// dS - surface area
 		// n - normal to the surface
 
-		Vector3 F = 1000f * Physics.gravity.y * distance_to_surface * area * crossProduct;
+		Vector3 F = density * Physics.gravity.y * distance_to_surface * area * crossProduct;
 		F = new Vector3(0f, F.y, 0f);
 		boatRB.AddForceAtPosition(F, centerPoint);
 	}

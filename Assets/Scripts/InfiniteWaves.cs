@@ -17,9 +17,9 @@ public class InfiniteWaves : MonoBehaviour {
 	public GameObject plane;
 	public GameObject player;
 
-	int planeSize = 50;
-	int halfTilesX = 10;
-	int halfTilesZ = 10;
+	public int planeSize;
+	public int halfTilesX;
+	public int halfTilesZ;
 
 	Vector3 startPos;
 
@@ -48,6 +48,7 @@ public class InfiniteWaves : MonoBehaviour {
 	}
 	
 	void Update(){
+		
 		int xMove = (int)(player.transform.position.x - startPos.x);
 		int zMove = (int)(player.transform.position.z - startPos.z);
 
