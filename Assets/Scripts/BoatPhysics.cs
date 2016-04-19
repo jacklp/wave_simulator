@@ -61,7 +61,7 @@ public class BoatPhysics : MonoBehaviour {
 
 
 		if (underwaterTriangles != null) {
-			transform.Translate(Vector3.forward * speed);		
+			
 			//Will add buoyance so it can float, and drifting from the waves
 			if (underwaterTriangles.Count > 0) {
 				AddForcesToBoat ();
@@ -92,7 +92,7 @@ public class BoatPhysics : MonoBehaviour {
 
 			//Calculate the distance to the surface from the center of the triangle
 			//DistanceToWater() will transform to worldspace
-			float distance_to_surface = Mathf.Abs((float)DistanceToWater(centerPoint));
+			float distance_to_surface = Mathf.Abs((float)DistanceToWater(centerPoint, i));
 
 			//From localspace to worldspace
 			centerPoint   = transform.TransformPoint(centerPoint);
@@ -174,17 +174,17 @@ public class BoatPhysics : MonoBehaviour {
 
 			//The position of the vertice in Vector3 format (need to save this position for later)
 			Vector3 vertice_1_pos = originalVerticesArray[originalTrianglesArray[i]];
-			float? distance1 = DistanceToWater(vertice_1_pos);
+			float? distance1 = DistanceToWater(vertice_1_pos, i);
 
 			i++;
 
 			Vector3 vertice_2_pos = originalVerticesArray[originalTrianglesArray[i]];
-			float? distance2 = DistanceToWater(vertice_2_pos);
+			float? distance2 = DistanceToWater(vertice_2_pos, i);
 
 			i++;
 
 			Vector3 vertice_3_pos = originalVerticesArray[originalTrianglesArray[i]];
-			float? distance3 = DistanceToWater(vertice_3_pos);
+			float? distance3 = DistanceToWater(vertice_3_pos, i);
 
 			i++;
 
@@ -394,13 +394,13 @@ public class BoatPhysics : MonoBehaviour {
 
 	}
 
-	float? DistanceToWater(Vector3 position) {		
+	float? DistanceToWater(Vector3 position, int i) {		
 		//Calculate the coordinate of the vertice in global space
 		Vector3 globalVerticePosition = transform.TransformPoint(position);
 
 		float? y_pos = 0f;
 
-		y_pos += waveScript.GetWaveYPos(globalVerticePosition.x, globalVerticePosition.z);
+		y_pos += waveScript.GetWaveYPos(globalVerticePosition.x, globalVerticePosition.z, i);
 
 		return globalVerticePosition.y - y_pos;
 	}

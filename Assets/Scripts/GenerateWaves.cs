@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GenerateWaves : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class GenerateWaves : MonoBehaviour {
 	//The initial values of the vertices are stored here
 	private Vector3[] originalVertices;
 
+	private Vector3[] waveVertices;
 	//To get the y position
 	private WaveController waveScript;
 
@@ -39,6 +41,7 @@ public class GenerateWaves : MonoBehaviour {
 
 
 	void Update() {
+
 		MoveSea();
 
 
@@ -53,11 +56,13 @@ public class GenerateWaves : MonoBehaviour {
 			}
 		}
 	}
-
-
+		
 
 	void MoveSea() {
 		newVertices = new Vector3[originalVertices.Length];
+
+		//instead of looping through all of the vertices can i change it such that it loops through an array of selected vertices that are put in to "waves"
+
 
 		for (int i = 0; i < originalVertices.Length; i++) {
 			Vector3 vertice = originalVertices[i];
@@ -66,7 +71,7 @@ public class GenerateWaves : MonoBehaviour {
 			//From local to global
 			vertice = transform.TransformPoint(vertice);
 
-			vertice.y += waveScript.GetWaveYPos(vertice.x, vertice.z);
+			vertice.y += waveScript.GetWaveYPos(vertice.x, vertice.z, i);
 
 			//From global to local
 			newVertices[i] = transform.InverseTransformPoint(vertice);
@@ -77,4 +82,5 @@ public class GenerateWaves : MonoBehaviour {
 		//After modifying the vertices it is often useful to update the normals to reflect the change
 		waterMesh.RecalculateNormals();
 	}
+		
 }
