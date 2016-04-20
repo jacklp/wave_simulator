@@ -10,12 +10,13 @@ public class WaveController : MonoBehaviour {
 
 	SineWaveModel sineWaveModel;
 	public GUISkin menuSkin;
-	private float steepness = 100f;
-
+	public List<Vector3> direction;
 
 	void Awake(){
 		sineWaveModel = new SineWaveModel ();
 		sineWaveModel.buildModel ();
+		direction = new List<Vector3> ();
+		direction.Add (new Vector3(2,5,1));
 	}
 
 	void OnGUI()
@@ -28,7 +29,7 @@ public class WaveController : MonoBehaviour {
 
 
 		//Begin Area
-		GUILayout.BeginArea (new Rect (0, 0, Screen.width / 4, 400), menuSkin.box);
+		GUILayout.BeginArea (new Rect (0, 0, Screen.width / 4, 600), menuSkin.box);
 
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ("Amplitude");
@@ -84,6 +85,31 @@ public class WaveController : MonoBehaviour {
 		GUILayout.EndHorizontal ();
 		GUILayout.Space (15);
 
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label("Steepness");
+		int steepness = GUILayout.SelectionGrid ((int)sineWaveModel.modelData ["steepness"], new string[] { "off", "1", "2", }, 1, EditorStyles.radioButton);
+		GUILayout.EndHorizontal ();
+		GUILayout.Space (15);
+
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label("Direction x");
+		string directionx = GUILayout.TextField (sineWaveModel.modelData ["directionx"].ToString());
+		if (directionx == "") {
+			directionx = "0";
+		}
+		GUILayout.EndHorizontal ();
+		GUILayout.Space (15);
+
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label("Direction y");
+		string directiony = GUILayout.TextField (sineWaveModel.modelData ["directiony"].ToString());
+		GUILayout.EndHorizontal ();
+		GUILayout.Space (15);
+		if (directiony == "") {
+			directiony = "0";
+		}
+
+
 		GUILayout.EndArea ();
 
 		if (GUI.changed) {
@@ -96,15 +122,18 @@ public class WaveController : MonoBehaviour {
 			sineWaveModel.modelData ["bias"] = bias;
 			sineWaveModel.modelData ["continuousBool"] = (float)continuousBool;
 			sineWaveModel.modelData ["timePeriod"] = timePeriod;
+			sineWaveModel.modelData ["steepness"] = (float)steepness;
+			sineWaveModel.modelData ["directionx"] = float.Parse (directionx);
+			sineWaveModel.modelData ["directiony"] = float.Parse (directiony);
 			sineWaveModel.saveModel ();
 		}
 	}
-
+		
 	public float GetWaveYPos(float x_coord, float z_coord, float index) {
 		float y_coord = 0f;
 
 		if (sineWaveModel.modelData["continuousBool"] == 1f) {
-			y_coord += sineWaveModel.modelData["amplitude"] * Mathf.Sin ( (2* Mathf.PI * Time.time * sineWaveModel.modelData["speed"] + z_coord) / sineWaveModel.modelData["wavelength"]) + sineWaveModel.modelData["bias"];
+			y_coord += sineWaveModel.modelData["amplitude"] * Mathf.Pow(Mathf.Sin ( (2* Mathf.PI * Time.time * sineWaveModel.modelData["speed"] + Vector2.Dot (new Vector2(sineWaveModel.modelData ["directionx"], sineWaveModel.modelData ["directiony"]), new Vector2 (x_coord, z_coord))) / sineWaveModel.modelData["wavelength"]) + sineWaveModel.modelData["bias"], sineWaveModel.modelData ["steepness"]);
 		} else {
 			y_coord += sineWaveModel.modelData["amplitude"] * Mathf.Sin ( (2* Mathf.PI * 1/(sineWaveModel.modelData ["timePeriod"] * sineWaveModel.modelData["speed"]) + z_coord) / sineWaveModel.modelData["wavelength"]) + sineWaveModel.modelData["bias"];
 		}
