@@ -25,7 +25,17 @@ public class InfiniteWaves : MonoBehaviour {
 
 	Hashtable tiles = new Hashtable();
 
+	Material wireframe;
+	Material water;
+	bool wireOn;
+
+
 	void Start(){
+
+		wireOn = false;
+
+		water = Resources.Load ("water") as Material;
+		wireframe = Resources.Load ("wireframev2") as Material;
 
 		this.gameObject.transform.position = Vector3.zero;
 		startPos = Vector3.zero;
@@ -41,14 +51,41 @@ public class InfiniteWaves : MonoBehaviour {
 				GameObject t = (GameObject)Instantiate (plane, pos, Quaternion.identity);
 				string tilename = "Tile_" + ((int)(pos.x)).ToString() + "_" + ((int)(pos.z)).ToString();
 				t.name = tilename;
+				t.tag = "plane";
 				Tile Tile = new Tile(t, updateTime);
 				tiles.Add(tilename, Tile);
 			}
 		}
+
+
+
 	}
 	
 	void Update(){
-		
+
+		if (Input.GetKeyDown ("space")) {
+
+			if (wireOn) {
+
+				plane.GetComponent<Renderer> ().material = wireframe;
+
+				foreach(DictionaryEntry entry in tiles){
+					Tile tile = entry.Value as Tile;
+					tile.theTile.GetComponent<Renderer> ().material = wireframe;
+				}
+					
+				wireOn = false;
+			} else {
+				plane.GetComponent<Renderer> ().material = water;
+				foreach(DictionaryEntry entry in tiles){
+					Tile tile = entry.Value as Tile;
+					tile.theTile.GetComponent<Renderer> ().material = water;
+				}
+				wireOn = true;
+			}
+		}
+
+
 		int xMove = (int)(player.transform.position.x - startPos.x);
 		int zMove = (int)(player.transform.position.z - startPos.z);
 

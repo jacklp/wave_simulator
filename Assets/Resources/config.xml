@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <parameters>
-  <amplitude>0.9954751</amplitude>
+  <amplitude>2.5</amplitude>
   <speed>0.5791851</speed>
   <wavelength>5</wavelength>
-  <noiseBool>1</noiseBool>
+  <noiseBool>0</noiseBool>
   <noiseStrength>6</noiseStrength>
   <noiseWalk>1.457013</noiseWalk>
   <bias>0.65</bias>
@@ -11,5 +11,5 @@
   <timePeriod>1.0975</timePeriod>
   <steepness>1</steepness>
   <directionx>1</directionx>
-  <directiony>20</directiony>
+  <directiony>1</directiony>
 </parameters>
