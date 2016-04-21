@@ -16,29 +16,16 @@ public class GenerateWaves : MonoBehaviour {
 	//To get the y position
 	private WaveController waveScript;
 
-
-
-	int numOfWaves = 1;
 	public List<Vector3> waves;
 
 
 
 	void Start() {
 
-
 		waves = new List<Vector3> ();
-
-
-
-
-		//Get the water mesh
 		waterMesh = this.GetComponent<MeshFilter> ().mesh;
-
 		originalVertices = waterMesh.vertices;
-
-		//Get the waveScript
 		GameObject gameController = GameObject.FindGameObjectWithTag ("GameController");
-
 		waveScript = gameController.GetComponent<WaveController> ();
 			
 	}
@@ -46,9 +33,7 @@ public class GenerateWaves : MonoBehaviour {
 
 	void Update() {
 
-
 		MoveSea ();
-
 
 	}
 		
@@ -58,22 +43,11 @@ public class GenerateWaves : MonoBehaviour {
 			
 		newVertices = new Vector3[originalVertices.Length];
 
-
 		for (int i = 0; i < originalVertices.Length; i++) {
 			Vector3 vertice = originalVertices[i];
 
-			//Now we need to modify this coordinate's y-position
-			//From local to global
 			vertice = transform.TransformPoint(vertice);
-
-
 			vertice.y += waveScript.GetWaveYPos(vertice.x, vertice.z, i);
-
-
-			//vertice = waveScript.GerstnerWaveFunction (vertice.x, vertice.y, vertice.z, waves);
-			//vertice.y = waveScript.sumSinWaves(vertice.x, vertice.y, vertice.z, waves);
-
-			//From global to local
 			newVertices[i] = transform.InverseTransformPoint(vertice);
 		}
 

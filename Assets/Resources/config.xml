@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <parameters>
-  <amplitude>2.5</amplitude>
-  <speed>0.5791851</speed>
+  <amplitude>5</amplitude>
+  <speed>1.25</speed>
   <wavelength>5</wavelength>
   <noiseBool>0</noiseBool>
   <noiseStrength>6</noiseStrength>

@@ -33,7 +33,7 @@ public class WaveController : MonoBehaviour {
 
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ("Amplitude");
-		float amplitude = GUILayout.HorizontalSlider (sineWaveModel.modelData ["amplitude"], 0.0F, 2.5F);
+		float amplitude = GUILayout.HorizontalSlider (sineWaveModel.modelData ["amplitude"], 0.0F, 5F);
 		GUILayout.EndHorizontal ();
 		GUILayout.Space (15);
 
